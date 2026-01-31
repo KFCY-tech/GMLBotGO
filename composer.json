@@ -1,0 +1,15 @@
+{
+    "name": "yanis/gml-bot",
+    "autoload": {
+        "psr-4": {
+            "Yanis\\GmlBot\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Faraux Yanis",
+            "email": "yanis.faraux@gmail.com"
+        }
+    ],
+    "require": {}
+}
