@@ -1,0 +1,8 @@
+services:
+  discordbotgo:
+    build: .
+    image: gmlbot:latest
+    container_name: discordbotgo
+    env_file:
+      - .env
+    restart: unless-stopped
