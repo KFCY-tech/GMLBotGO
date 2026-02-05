@@ -4,18 +4,17 @@ import "github.com/bwmarrin/discordgo"
 
 func init() {
 	cmd := &discordgo.ApplicationCommand{
-		Name:        "ping",
-		Description: "Pong",
+		Name:        "g",
+		Description: "The team name !",
 	}
 
-	Register(cmd, pingHandler)
+	Register(cmd, gHandler)
 }
-
-func pingHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
+func gHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
-			Content: "Pong!",
+			Content: "ML!",
 		},
 	})
 	if err != nil {

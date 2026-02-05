@@ -2,7 +2,16 @@ package commands
 
 import "github.com/bwmarrin/discordgo"
 
-func HelloCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
+func init() {
+	cmd := &discordgo.ApplicationCommand{
+		Name:        "hello",
+		Description: "Say hello to the bot",
+	}
+
+	Register(cmd, helloHandler)
+}
+
+func helloHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
