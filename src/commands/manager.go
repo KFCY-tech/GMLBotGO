@@ -1,6 +1,13 @@
 package commands
 
 import "github.com/bwmarrin/discordgo"
+import "go.mongodb.org/mongo-driver/mongo"
+
+var mongoClient *mongo.Client
+
+func SetMongoClient(c *mongo.Client) {
+	mongoClient = c
+}
 
 var (
 	AllCommands []*discordgo.ApplicationCommand

@@ -11,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 
 	"GMLBot/src/commands"
+
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -18,8 +19,9 @@ import (
 type CommandHandler func(s *discordgo.Session, i *discordgo.InteractionCreate)
 
 func main() {
+	mongoURI := "mongodb://root:pass@mongoDiscordBot:27017/?authSource=admin"
 
-	clientOptions := options.Client().ApplyURI("mongodb://root:root@mongoDiscordBot:27017/?authSource=pass")
+	clientOptions := options.Client().ApplyURI(mongoURI)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	client, err := mongo.Connect(ctx, clientOptions)
@@ -32,6 +34,7 @@ func main() {
 	}
 
 	log.Println("Succès ! Connecté à MongoDB.")
+	commands.SetMongoClient(client)
 	collection := client.Database("ma_base_de_donnees").Collection("utilisateurs")
 	_, err = collection.InsertOne(ctx, bson.D{{"nom", "Alice"}, {"role", "admin"}})
 	token := os.Getenv("TOKEN_DISCORD")
