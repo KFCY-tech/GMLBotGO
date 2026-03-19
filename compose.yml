@@ -1,8 +1,8 @@
 services:
 
-  mongoDiscordBot:
+  db:
     image: mongo
-    container_name: mongoDiscordBot
+    container_name: mongoDb
     ports:
       - "27017:27017"
     restart: always
@@ -34,14 +34,14 @@ services:
         condition: service_healthy
   mongo-express:
     image: mongo-express
-    container_name: mongo-interface
+    container_name: db-interface
     restart: always
     ports:
       - 8081:8081
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://root:pass@mongoDiscordBot:27017/?authSource=admin
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: pass
+      ME_CONFIG_MONGODB_ADMINPASSWORD: /run/secrets/MONGODB_ADMINPASSWORD
       ME_CONFIG_BASICAUTH_USERNAME: admin
       ME_CONFIG_BASICAUTH_PASSWORD: pass
     depends_on:
@@ -49,6 +49,8 @@ services:
         condition: service_healthy
     networks:
       - mongo_net
+    secrets:
+      - MONGODB_ADMINPASSWORD
 
 
 
@@ -57,3 +59,7 @@ volumes:
 networks:
   mongo_net:
     driver: bridge
+
+secrets:
+  MONGODB_ADMINPASSWORD:
+    file: ./docker/secrets/MONGODB_ADMINPASSWORD.txt
